@@ -1,0 +1,55 @@
+﻿<Window x:Class="InventorySystemSoftware1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InventorySystemSoftware1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="2" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Expander for Home and Exit buttons -->
+            <Expander x:Name="ButtonExpander" IsExpanded="True" Grid.Row="0" Grid.ColumnSpan="3">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="btnHome" Width="80" Height="40" 
+                        Margin="10,5" Grid.Column="0" Click="btnHome_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/216242_home_icon.png"/>
+                        </Button.Background>
+                    </Button>
+
+                    <Button x:Name="btnExit" Width="80" Height="40" 
+                        Margin="10,5" Grid.Column="2" Click="btnExit_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/9104334_sign out_logout_exit_out_icon.png"/>
+                        </Button.Background>
+                    </Button>
+                </Grid>
+            </Expander>
+
+            <!-- Separator line -->
+            <Separator Grid.ColumnSpan="3" Grid.Row="1" Background="Green" Height="2" Margin="0"/>
+
+            <!-- ContentControl for displaying different views -->
+            <ContentControl x:Name="MainContent" Grid.Row="2" Grid.ColumnSpan="3" Margin="10"/>
+        </Grid>
+    </Grid>
+</Window>

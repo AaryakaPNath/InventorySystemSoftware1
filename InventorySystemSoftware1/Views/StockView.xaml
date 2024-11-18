@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="InventorySystemSoftware1.Views.StockView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:InventorySystemSoftware1.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="800">
+
+    <!-- UserControl resources for converters -->
+    <UserControl.Resources>
+        <local:NullToBoolConverter x:Key="NullToBoolConverter"/>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Command buttons for adding, deleting, and editing stocks -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="0" Margin="0,20,40,20">
+            <Button Content="Add" Margin="5,0" Command="{Binding AddStockCommand}" Width="43" RenderTransformOrigin="0.384,0.501"/>
+            <Button Content="Delete" Margin="5,0" Command="{Binding DeleteStockCommand}" 
+                    IsEnabled="{Binding SelectedStock, Converter={StaticResource NullToBoolConverter}}"/>
+            <Button Content="Edit" Margin="5,0" Command="{Binding UpdateStockCommand}" 
+                    IsEnabled="{Binding SelectedStock, Converter={StaticResource NullToBoolConverter}}" Width="44"/>
+        </StackPanel>
+
+        <!-- DataGrid for displaying stock items -->
+        <DataGrid Grid.Row="1" Margin="40,20,40,20" ItemsSource="{Binding Stocks}" 
+                  SelectedItem="{Binding SelectedStock, Mode=TwoWay}" AutoGenerateColumns="False"
+                  SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Code" Binding="{Binding StockCode}" Width="100"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding StockName}" Width="100"/>
+                <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice}" Width="100"/>
+                <DataGridTextColumn Header="Stock Count" Binding="{Binding StockCount}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Input fields for editing stock details -->
+        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="40,20,40,20" 
+            Visibility="{Binding IsEditingEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Margin="0,10">
+                <!-- Define row and column structure -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+
+                
+                <TextBlock Text="Code" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+                <TextBox Width="120" Text="{Binding NewStock.StockCode, Mode=TwoWay}" 
+                 IsEnabled="{Binding IsCodeTextBoxEnabled}" Grid.Row="0" Grid.Column="1"/>
+
+                <TextBlock Text="Name" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="40,0,0,0"/>
+                <TextBox Width="120" Text="{Binding NewStock.StockName, Mode=TwoWay}" Grid.Row="0" Grid.Column="3" Margin="40,0,-40,0"/>
+
+                
+                <TextBlock Text="Unit Price" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"
+                Margin="0,20,0,0"/>
+                <TextBox Width="120" Text="{Binding NewStock.UnitPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"
+                 Margin="0,20,0,0"/>
+
+                <TextBlock Text="Stock Count" VerticalAlignment="Top" Grid.Row="1" Grid.Column="2" Margin="40,20,114,0" Grid.ColumnSpan="2"/>
+                <TextBox Width="120" Text="{Binding NewStock.StockCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="3" Margin="0,20,-40,0" HorizontalAlignment="Right"/>
+            </Grid>
+
+            <!-- Save button -->
+            <Button Content="Save" HorizontalAlignment="Right" Width="80" Margin="0,20,0,0" 
+            Command="{Binding SaveStockCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
